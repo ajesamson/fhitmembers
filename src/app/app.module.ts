@@ -7,6 +7,10 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { AngularFireModule } from 'angularfire2';
+import { FIREBASE_CONFIG } from './firebase.credentials';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { MyApp } from './app.component';
 import { CameraProvider } from '../providers/camera/camera';
@@ -17,7 +21,13 @@ import { PictureSourceComponent } from '../components/picture-source/picture-sou
 
 @NgModule({
   declarations: [MyApp, FilterComponent, PictureSourceComponent],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule
+  ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, FilterComponent, PictureSourceComponent],
   providers: [
