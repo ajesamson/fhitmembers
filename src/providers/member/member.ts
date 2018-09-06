@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Member } from '../../models/member/member.interface';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Platform } from 'ionic-angular';
 import * as moment from 'moment';
-import { Storage } from '@ionic/storage';
+
+import { Member } from '../../models/member/member.interface';
 import { AppConstants } from '../../app/app.constants';
 
 @Injectable()
@@ -11,7 +13,11 @@ export class MemberProvider {
     ref.orderByChild('lastName')
   );
 
-  constructor(private db: AngularFireDatabase, private storage: Storage) {}
+  constructor(
+    private db: AngularFireDatabase,
+    private storage: NativeStorage,
+    private platform: Platform
+  ) {}
 
   /**
    * Retrieves list of member details
@@ -116,11 +122,14 @@ export class MemberProvider {
    * @returns {Promise<any>}
    */
   async storeMemberOffline(members: Member[]) {
-    await this.storage.ready();
-    return await this.storage.set(
-      AppConstants.MEMBERS_LIST,
-      JSON.stringify(members)
-    );
+    // TODO: Change native storage to sqlite
+    const plt = await this.platform.ready();
+    if (plt) {
+      return await this.storage.setItem(
+        AppConstants.MEMBERS_LIST,
+        members
+      );
+    }
   }
 
   /**
@@ -129,8 +138,10 @@ export class MemberProvider {
    * @returns {Promise<any>}
    */
   async getOfflineMembers() {
-    await this.storage.ready();
-    const membersList = await this.storage.get(AppConstants.MEMBERS_LIST);
-    return JSON.parse(membersList);
+    const plt = await this.platform.ready();
+    if (plt) {
+      const membersList = await this.storage.getItem(AppConstants.MEMBERS_LIST);
+      return JSON.parse(membersList);
+    }
   }
 }

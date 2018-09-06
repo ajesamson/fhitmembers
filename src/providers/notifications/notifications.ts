@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { Storage } from '@ionic/storage';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { Platform } from 'ionic-angular';
+
 import { AppConstants } from '../../app/app.constants';
 import { Member } from '../../models/member/member.interface';
 
@@ -12,7 +13,7 @@ export class NotificationsProvider {
   constructor(
     private localNotifications: LocalNotifications,
     private platform: Platform,
-    private storage: Storage
+    private storage: NativeStorage
   ) {}
 
   /**
@@ -20,8 +21,7 @@ export class NotificationsProvider {
    */
   async clearAllNotificationList() {
     const plt = await this.platform.ready();
-    const stg = await this.storage.ready();
-    if (plt && stg) {
+    if (plt) {
       await this.localNotifications.clearAll();
       await this.storage.remove(AppConstants.CELEBRANTS);
     }
@@ -45,10 +45,7 @@ export class NotificationsProvider {
     );
     if (notificationParamsList.length > 0) {
       this.localNotifications.schedule(notificationParamsList);
-      await this.storage.set(
-        AppConstants.CELEBRANTS,
-        JSON.stringify(this.monthCelebrants)
-      );
+      await this.storage.setItem(AppConstants.CELEBRANTS, this.monthCelebrants);
     }
   }
 
@@ -63,9 +60,10 @@ export class NotificationsProvider {
     let notificationParamsList = [];
 
     await this.storage
-      .get(AppConstants.CELEBRANTS)
+      .getItem(AppConstants.CELEBRANTS)
       .then(scheduledCelebrants => {
-        this.monthCelebrants = JSON.parse(scheduledCelebrants) || {};
+        this.monthCelebrants = scheduledCelebrants || {};
+        console.log('month celebrants => ' + this.monthCelebrants);
 
         members.forEach(member => {
           if (
