@@ -11,6 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 import { MyApp } from './app.component';
 import { CameraProvider } from '../providers/camera/camera';
@@ -26,7 +27,8 @@ import { PictureSourceComponent } from '../components/picture-source/picture-sou
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    IonicImageLoader.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, FilterComponent, PictureSourceComponent],
