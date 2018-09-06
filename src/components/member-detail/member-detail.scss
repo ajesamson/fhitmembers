@@ -1,0 +1,22 @@
+app-member-detail {
+  ion-avatar {
+    margin-top: 10px;
+    img {
+      height: 50vw;
+      width: 50vw;
+      border-radius: 50%;
+      background: transparent;
+    }
+    button {
+      left: 50px;
+      top: -40px;
+      margin-bottom: 0;
+    }
+    h2 {
+      margin-top: -20px;
+    }
+  }
+  ion-col {
+    padding-top: 10px;
+  }
+}

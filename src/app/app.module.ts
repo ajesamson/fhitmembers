@@ -9,13 +9,17 @@ import { Camera } from '@ionic-native/camera';
 import { NativeStorage } from '@ionic-native/native-storage';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { CameraProvider } from '../providers/camera/camera';
+import { MemberProvider } from '../providers/member/member';
+import { NotificationsProvider } from '../providers/notifications/notifications';
+import { FilterComponent } from '../components/filter/filter';
+import { PictureSourceComponent } from '../components/picture-source/picture-source';
 
 @NgModule({
-  declarations: [MyApp, HomePage],
+  declarations: [MyApp, FilterComponent, PictureSourceComponent],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage],
+  entryComponents: [MyApp, FilterComponent, PictureSourceComponent],
   providers: [
     StatusBar,
     SplashScreen,
@@ -23,7 +27,10 @@ import { HomePage } from '../pages/home/home';
     LocalNotifications,
     Network,
     Camera,
-    NativeStorage
+    NativeStorage,
+    CameraProvider,
+    MemberProvider,
+    NotificationsProvider
   ]
 })
 export class AppModule {}

@@ -1,0 +1,10 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Edit Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <app-member-form [memberData]="member" (memberModified)="onMemberModified($event)"></app-member-form>
+</ion-content>

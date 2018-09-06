@@ -1,0 +1,15 @@
+<ion-list radio-group [(ngModel)]="memberStatus">
+  <ion-list-header>Filter Members</ion-list-header>
+  <ion-item>
+    <ion-label>All Members</ion-label>
+    <ion-radio value="all" [checked]="memberStatus === 'all'" (ionSelect)="closeFilter()"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Active Members</ion-label>
+    <ion-radio value="true" [checked]="memberStatus === 'true'" (ionSelect)="closeFilter()"></ion-radio>
+  </ion-item>
+  <ion-item>
+    <ion-label>Inactive Members</ion-label>
+    <ion-radio value="false" [checked]="memberStatus === 'false'" (ionSelect)="closeFilter()"></ion-radio>
+  </ion-item>
+</ion-list>

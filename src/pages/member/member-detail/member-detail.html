@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar no-border>
+    <ion-title>{{member?.firstName}} {{member?.lastName}}</ion-title>
+    <ion-buttons end navPush="EditMemberPage" [navParams]="{member: member}">
+      <button ion-button icon-only >
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <app-member-detail [member]="member"></app-member-detail>
+</ion-content>

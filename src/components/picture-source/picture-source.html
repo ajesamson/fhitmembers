@@ -1,0 +1,23 @@
+<ion-card>
+  <ion-card-header>
+    Profile Photo
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear color="danger" (click)="closeModal('camera')">
+            <ion-icon name="camera"></ion-icon>
+            Camera
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear color="primary" (click)="closeModal('gallery')">
+            <ion-icon name="images"></ion-icon>
+            Gallery
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

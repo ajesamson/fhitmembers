@@ -1,0 +1,75 @@
+<ion-grid>
+  <ion-row>
+    <ion-col col-12>
+      <ion-avatar justify-content-center>
+        <img-loader [src]="member?.avatar" useImg></img-loader>
+        <button ion-button icon-only round color="secondary" (click)="chosePicture()">
+          <ion-icon name="camera"></ion-icon>
+        </button>
+        <h2 text-center>
+          {{member?.firstName}} {{member?.lastName}}
+        </h2>
+        <p text-center>
+          <ion-badge [color]="member?.status? 'secondary' : 'danger'">
+            {{member?.status? 'Active' : 'Inactive'}}
+          </ion-badge>
+        </p>
+      </ion-avatar>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-12>
+      <ion-list no-lines padding margin-top>
+
+        <ion-item>
+          <p>Gender</p>
+          <h2>
+            {{member?.gender || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item>
+          <p>Address</p>
+          <h2>
+            {{member?.address || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item>
+          <p>Phone Number</p>
+          <h2>
+            {{member?.phoneNumber || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item>
+          <p>Email</p>
+          <h2>
+            {{member?.email || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item>
+          <p>Birth Date</p>
+          <h2>
+            {{member?.birthDate || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item>
+          <p>Department(s)</p>
+          <h2>
+            {{member?.department || defaultInfo}}
+          </h2>
+        </ion-item>
+
+        <ion-item *ngIf="!member?.status">
+          <p>Status Reason</p>
+          <h2>
+            {{member?.statusReason}}
+          </h2>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+</ion-grid>

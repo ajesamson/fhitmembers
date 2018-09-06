@@ -1,0 +1,72 @@
+<form [formGroup]="memberForm" novalidate (ngSubmit)="onSubmit()">
+
+  <ion-list>
+    <ion-item>
+      <ion-label floating>First name</ion-label>
+      <ion-input type="text" [formControl]="firstName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last name</ion-label>
+      <ion-input type="text" [formControl]="lastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Gender</ion-label>
+      <ion-select [formControl]="gender">
+        <ion-option value="Male">Male</ion-option>
+        <ion-option value="Female">Female</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Address</ion-label>
+      <ion-textarea [formControl]="address"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input type="tel" [formControl]="phoneNumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" [formControl]="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Birth date</ion-label>
+      <ion-input type="text" [formControl]="birthDate"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Department(s)</ion-label>
+      <ion-select [formControl]="department" multiple="true" >
+        <ion-option value="M.M.U">M.M.U.</ion-option>
+        <ion-option value="W.M.U">W.M.U</ion-option>
+        <ion-option value="Children">Children</ion-option>
+        <ion-option value="Youth">Youth</ion-option>
+        <ion-option value="Student">Student</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item-divider>STATUS</ion-item-divider>
+    <ion-item>
+      <ion-label>Active</ion-label>
+      <ion-checkbox color="dark"
+                    [formControl]="status"
+                    checked="active? True : False"
+                    (ionChange)="updateStatus()"
+      ></ion-checkbox>
+    </ion-item>
+
+    <ion-item *ngIf="!active">
+      <ion-label floating>Reason</ion-label>
+      <ion-input type="text" [formControl]="statusReason"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-row padding>
+    <button ion-button type="submit" [disabled]="memberForm.invalid">Save</button>
+  </ion-row>
+</form>

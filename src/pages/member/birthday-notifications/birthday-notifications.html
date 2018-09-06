@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Birthday Notifications</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <app-members-list [memberList]="dayCelebrants" listsHeader="Today's Birthdays"></app-members-list>
+  <app-members-list [memberList]="upcomingCelebrants" listsHeader="Upcoming Birthdays"></app-members-list>
+  <app-members-list [memberList]="laterInMonthCelebrants" listsHeader="Later in month Birthdays"></app-members-list>
+</ion-content>

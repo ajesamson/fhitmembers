@@ -1,0 +1,14 @@
+<ion-list>
+  <ion-list-header>{{memberListHeader}} <ion-badge item-end >{{memberList?.length}}</ion-badge></ion-list-header>
+  <ion-item  *ngFor="let member of memberList" navPush="MemberDetailPage" [navParams]="{member: member}">
+    <ion-avatar item-start>
+      <img-loader [src]="member?.avatar" useImg></img-loader>
+    </ion-avatar>
+    <h2>{{member.firstName}} {{member.lastName}}</h2>
+    <p>{{member.phoneNumber}}</p>
+    <ion-avatar item-right>
+      <p>{{member.birthDate | date: 'MMM dd'}}</p>
+      <ion-icon name="calendar"></ion-icon>
+    </ion-avatar>
+  </ion-item>
+</ion-list>

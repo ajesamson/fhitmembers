@@ -1,0 +1,5 @@
+<ion-searchbar [(ngModel)]="query" (ionChange)="searchMember(query)"></ion-searchbar>
+
+<div>
+  <app-members-list [memberList]="matchedMembers" [listsHeader]="memberListHeader"></app-members-list>
+</div>
