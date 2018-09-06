@@ -4,5 +4,8 @@ export const AppConstants = {
   PICTURE_SOURCE: {
     camera: 'camera',
     gallery: 'gallery'
+  },
+  MEMBER_STATUS: {
+    all: 'all',
   }
 };

@@ -10,7 +10,6 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { IonicImageLoader } from 'ionic-image-loader';
 
 import { MyApp } from './app.component';
@@ -19,6 +18,7 @@ import { MemberProvider } from '../providers/member/member';
 import { NotificationsProvider } from '../providers/notifications/notifications';
 import { FilterComponent } from '../components/filter/filter';
 import { PictureSourceComponent } from '../components/picture-source/picture-source';
+import {AngularFireStorageModule} from "angularfire2/storage";
 
 @NgModule({
   declarations: [MyApp, FilterComponent, PictureSourceComponent],
@@ -27,7 +27,7 @@ import { PictureSourceComponent } from '../components/picture-source/picture-sou
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
-    AngularFirestoreModule,
+    AngularFireStorageModule,
     IonicImageLoader.forRoot()
   ],
   bootstrap: [IonicApp],
