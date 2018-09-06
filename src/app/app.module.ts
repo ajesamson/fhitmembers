@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -21,7 +22,8 @@ import { HomePage } from '../pages/home/home';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LocalNotifications,
     Network,
-    Camera
+    Camera,
+    NativeStorage
   ]
 })
 export class AppModule {}
