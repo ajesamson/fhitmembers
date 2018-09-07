@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import 'rxjs/add/observable/fromEvent';
 import { IonicImageLoader } from 'ionic-image-loader';
 import { MembersListComponent } from './members-list/members-list.component';
 import { MemberFormComponent } from './member-form/member-form.component';

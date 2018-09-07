@@ -140,8 +140,7 @@ export class MemberProvider {
   async getOfflineMembers() {
     const plt = await this.platform.ready();
     if (plt) {
-      const membersList = await this.storage.getItem(AppConstants.MEMBERS_LIST);
-      return JSON.parse(membersList);
+      return await this.storage.getItem(AppConstants.MEMBERS_LIST);
     }
   }
 }

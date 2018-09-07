@@ -11,7 +11,7 @@ import { Member } from '../../../models/member/member.interface';
 import { MemberProvider } from '../../../providers/member/member';
 import { FilterComponent } from '../../../components/filter/filter';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';
-import {AppConstants} from "../../../app/app.constants";
+import { AppConstants } from '../../../app/app.constants';
 
 interface Celebrant {
   dayCelebrants?: Member[];
@@ -39,7 +39,7 @@ export class MembersListPage {
   ) {}
 
   async ionViewDidLoad() {
-    this.memberStatus = 'all';
+    this.memberStatus = AppConstants.MEMBER_STATUS.all;
     if (this.network.type === 'none') {
       await this.getOfflineMemberList();
       return;
