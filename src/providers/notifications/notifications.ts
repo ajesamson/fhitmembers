@@ -41,12 +41,20 @@ export class NotificationsProvider {
    */
   async scheduleBirthDayNotification(members: Member[]) {
     try {
-      const notificationParamsList = await this.getBirthDayNotificationParams(
-        members
-      );
-      if (notificationParamsList.length > 0) {
-        this.localNotifications.schedule(notificationParamsList);
-        await this.storage.setItem(AppConstants.CELEBRANTS, this.monthCelebrants);
+      const plt = await this.platform.ready();
+      if (plt) {
+        const notificationParamsList = await this.getBirthDayNotificationParams(
+          members
+        );
+
+        if (notificationParamsList.length > 0) {
+          this.localNotifications.schedule(notificationParamsList);
+
+          await this.storage.setItem(
+            AppConstants.CELEBRANTS,
+            this.monthCelebrants
+          );
+        }
       }
     } catch (e) {
       NotificationsProvider.handleError(e);
@@ -63,29 +71,33 @@ export class NotificationsProvider {
     const month = new Date().getMonth();
     let notificationParamsList = [];
 
-    await this.storage
-      .getItem(AppConstants.CELEBRANTS)
-      .then(scheduledCelebrants => {
-        this.monthCelebrants = scheduledCelebrants || {};
-        console.log('month celebrants => ' + this.monthCelebrants);
+    try {
+      this.monthCelebrants = await this.storage.getItem(
+        AppConstants.CELEBRANTS
+      );
+    } catch (e) {
+      if (e.code === 2) {
+        // ITEM_NOT_FOUND
+        this.monthCelebrants = {};
+      }
+    }
 
-        members.forEach(member => {
-          if (
-            this.monthCelebrants[month] !== undefined &&
-            this.monthCelebrants[month].indexOf(member.key) >= 0
-          ) {
-            return;
-          }
+    members.forEach(member => {
+      if (
+        this.monthCelebrants[month] !== undefined &&
+        this.monthCelebrants[month].indexOf(member.key) >= 0
+      ) {
+        return;
+      }
 
-          const scheduleParams = NotificationsProvider.composeBirthdayNotification(
-            member
-          );
-          this.monthCelebrants[month]
-            ? this.monthCelebrants[month].push(member.key)
-            : (this.monthCelebrants[month] = [member.key]);
-          notificationParamsList.push(scheduleParams);
-        });
-      });
+      const scheduleParams = NotificationsProvider.composeBirthdayNotification(
+        member
+      );
+      this.monthCelebrants[month]
+        ? this.monthCelebrants[month].push(member.key)
+        : (this.monthCelebrants[month] = [member.key]);
+      notificationParamsList.push(scheduleParams);
+    });
 
     return notificationParamsList;
   }
