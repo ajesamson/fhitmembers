@@ -2,7 +2,7 @@
   <ion-row>
     <ion-col col-12>
       <ion-avatar justify-content-center>
-        <img-loader [src]="member?.avatar" useImg></img-loader>
+        <img [src]="member?.avatar || 'assets/imgs/profile-default.png'"/>
         <button ion-button icon-only round color="secondary" (click)="chosePicture()">
           <ion-icon name="camera"></ion-icon>
         </button>

@@ -40,12 +40,16 @@ export class NotificationsProvider {
    *}
    */
   async scheduleBirthDayNotification(members: Member[]) {
-    const notificationParamsList = await this.getBirthDayNotificationParams(
-      members
-    );
-    if (notificationParamsList.length > 0) {
-      this.localNotifications.schedule(notificationParamsList);
-      await this.storage.setItem(AppConstants.CELEBRANTS, this.monthCelebrants);
+    try {
+      const notificationParamsList = await this.getBirthDayNotificationParams(
+        members
+      );
+      if (notificationParamsList.length > 0) {
+        this.localNotifications.schedule(notificationParamsList);
+        await this.storage.setItem(AppConstants.CELEBRANTS, this.monthCelebrants);
+      }
+    } catch (e) {
+      NotificationsProvider.handleError(e);
     }
   }
 
@@ -105,5 +109,9 @@ export class NotificationsProvider {
       trigger: { at: scheduleTime },
       data: member
     };
+  }
+
+  static handleError(e) {
+    console.log(JSON.stringify(e));
   }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Member } from '../../models/member/member.interface';
+import { AppConstants } from '../../app/app.constants';
 
 @Component({
   selector: 'app-members-list',
@@ -17,11 +18,11 @@ export class MembersListComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges() {
-    if (this.memberStatus === 'all') {
+    if (this.memberStatus === AppConstants.MEMBER_STATUS.all) {
       this.memberListHeader = 'ALL';
     }
 
-    if (this.memberStatus !== 'all') {
+    if (this.memberStatus !== AppConstants.MEMBER_STATUS.all) {
       this.memberListHeader =
         this.memberStatus === 'true' ? 'ACTIVE' : 'INACTIVE';
     }
