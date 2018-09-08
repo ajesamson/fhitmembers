@@ -70,15 +70,16 @@ export class NotificationsProvider {
   async getBirthDayNotificationParams(members: Member[]) {
     const month = new Date().getMonth();
     let notificationParamsList = [];
+    this.monthCelebrants = {};
 
     try {
       this.monthCelebrants = await this.storage.getItem(
         AppConstants.CELEBRANTS
       );
     } catch (e) {
-      if (e.code === 2) {
+      if (e.code !== 2) {
         // ITEM_NOT_FOUND
-        this.monthCelebrants = {};
+        console.log(e);
       }
     }
 
