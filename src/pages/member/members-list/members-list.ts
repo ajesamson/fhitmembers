@@ -40,16 +40,26 @@ export class MembersListPage {
 
   async ionViewDidLoad() {
     this.memberStatus = AppConstants.MEMBER_STATUS.all;
-    if (this.network.type === 'none') {
-      await this.getOfflineMemberList();
-      return;
-    }
-    this.updateMemberList();
+    await this.loadMemberData();
   }
 
   async refreshPage(refresher) {
-    await this.updateMemberList();
+    await this.loadMemberData();
     refresher.complete();
+  }
+
+  /**
+   * Loads member data depending on network status
+   * @returns {Promise<void>}
+   */
+  async loadMemberData() {
+    if (this.network.type === 'none') {
+      await this.getOfflineMemberList();
+
+      return;
+    }
+
+    this.updateMemberList();
   }
 
   /**
