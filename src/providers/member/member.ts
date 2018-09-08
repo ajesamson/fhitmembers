@@ -79,9 +79,16 @@ export class MemberProvider {
     let laterInMonthCelebrants = [];
 
     members.forEach(member => {
-      const birthDate = moment(
-        member.birthDate + ', ' + new Date().getFullYear()
-      );
+      // TODO: Revamp date formatting to default YYYY-MM-DD
+      const birthMonthDay = member.birthDate.split(' ');
+      const birthDay = birthMonthDay[1].length === 1 ?  '0' + birthMonthDay[1] : birthMonthDay[1];
+      const memberBirth =
+        moment().year() +
+        '-' +
+        AppConstants.MONTHS[birthMonthDay[0]] +
+        '-' +
+        birthDay;
+      const birthDate = moment(memberBirth);
       const now = moment();
 
       if (member.status === false || now.isAfter(birthDate, 'day')) {
@@ -125,10 +132,7 @@ export class MemberProvider {
     // TODO: Change native storage to sqlite
     const plt = await this.platform.ready();
     if (plt) {
-      return await this.storage.setItem(
-        AppConstants.MEMBERS_LIST,
-        members
-      );
+      return await this.storage.setItem(AppConstants.MEMBERS_LIST, members);
     }
   }
 
