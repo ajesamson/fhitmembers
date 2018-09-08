@@ -5,7 +5,10 @@
       <button ion-button icon-only navPush="SearchMemberPage" [navParams]="{memberList: memberList, memberStatus: memberStatus}">
         <ion-icon name="search"></ion-icon>
       </button>
-      <button ion-button icon-only navPush="BirthdayNotificationsPage" [navParams]="{celebrantList: celebrantList}">
+      <button [color]="celebrantExist ? 'danger' : 'dark'"
+              ion-button icon-only
+              navPush="BirthdayNotificationsPage"
+              [navParams]="{celebrantList: celebrantList}">
         <ion-icon name="notifications"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showFilter($event)">

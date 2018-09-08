@@ -28,6 +28,7 @@ export class MembersListPage {
   memberList: Member[];
   memberStatus: string;
   celebrantList: Celebrant;
+  celebrantExist = false;
 
   constructor(
     private popoverCtrl: PopoverController,
@@ -102,6 +103,14 @@ export class MembersListPage {
           this.celebrantList = this.memberProvider.getBirthDayCelebrants(
             this.memberList
           );
+          if (
+            this.celebrantList.dayCelebrants.length > 0 ||
+            this.celebrantList.upcomingCelebrants.length > 0 ||
+            this.celebrantList.laterInMonthCelebrants.length > 0
+          ) {
+            this.celebrantExist = true;
+          }
+
           this.notificationProvider.scheduleBirthDayNotification(
             this.celebrantList.upcomingCelebrants
           );
