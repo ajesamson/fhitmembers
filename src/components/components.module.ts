@@ -5,20 +5,23 @@ import { MembersListComponent } from './members-list/members-list.component';
 import { MemberFormComponent } from './member-form/member-form.component';
 import { MemberDetailComponent } from './member-detail/member-detail';
 import { SearchMemberComponent } from './search-member/search-member';
+import { ImportMemberComponent } from './import-member/import-member';
 
 @NgModule({
   declarations: [
     MembersListComponent,
     MemberFormComponent,
     MemberDetailComponent,
-    SearchMemberComponent
+    SearchMemberComponent,
+    ImportMemberComponent
   ],
   imports: [IonicModule, IonicImageLoader],
   exports: [
     MembersListComponent,
     MemberFormComponent,
     MemberDetailComponent,
-    SearchMemberComponent
+    SearchMemberComponent,
+    ImportMemberComponent
   ]
 })
 export class ComponentsModule {}
