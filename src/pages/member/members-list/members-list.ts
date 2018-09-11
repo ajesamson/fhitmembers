@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {
   AlertController,
+  FabContainer,
   IonicPage,
   LoadingController,
+  NavController,
   PopoverController
 } from 'ionic-angular';
 import { Network } from '@ionic-native/network';
@@ -31,6 +33,7 @@ export class MembersListPage {
   celebrantExist = false;
 
   constructor(
+    private nav: NavController,
     private popoverCtrl: PopoverController,
     private loadingCtrl: LoadingController,
     private network: Network,
@@ -82,6 +85,22 @@ export class MembersListPage {
         this.updateMemberList();
       }
     });
+  }
+
+  /**
+   * Gives option of adding new member by import or manual input
+   *
+   * @param action
+   * @param fab
+   */
+  newMember(action: string, fab: FabContainer) {
+    if (action === AppConstants.NEW_MEMBER.add) {
+      this.nav.push('AddMemberPage').catch(MembersListPage.handleError);
+    } else {
+      this.nav.push('ImportMemberPage').catch(MembersListPage.handleError);
+    }
+
+    fab.close();
   }
 
   /**

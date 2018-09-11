@@ -23,7 +23,11 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <app-members-list [memberList]="memberList" [memberStatus]="memberStatus"></app-members-list>
-  <ion-fab right bottom>
-    <button ion-fab navPush="AddMemberPage"><ion-icon name="person-add"></ion-icon></button>
+  <ion-fab right bottom #fab>
+    <button ion-fab mini><ion-icon name="person-add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="newMember('add', fab)"><ion-icon name="keypad"></ion-icon></button>
+      <button ion-fab (click)="newMember('import', fab)"><ion-icon name="download"></ion-icon></button>
+    </ion-fab-list>
   </ion-fab>
 </ion-content>
