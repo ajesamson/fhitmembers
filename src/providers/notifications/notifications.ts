@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Platform } from 'ionic-angular';
+import * as _ from 'lodash';
 
 import { AppConstants } from '../../app/app.constants';
 import { Member } from '../../models/member/member.interface';
 
 @Injectable()
 export class NotificationsProvider {
-  monthCelebrants: object;
+  celebrants: string[];
 
   constructor(
     private localNotifications: LocalNotifications,
@@ -17,13 +18,44 @@ export class NotificationsProvider {
   ) {}
 
   /**
-   * Clears all scheduled notifications
+   * Clears local storage of scheduled birthday notifications
+   * @returns {Promise<void>}
    */
-  async clearAllNotificationList() {
-    const plt = await this.platform.ready();
-    if (plt) {
-      await this.localNotifications.clearAll();
-      await this.storage.remove(AppConstants.CELEBRANTS);
+  async clearScheduledNotifications() {
+    try {
+      const plt = await this.platform.ready();
+      if (plt) {
+        await this.storage.remove(AppConstants.CELEBRANTS);
+      }
+    } catch (e) {
+      NotificationsProvider.handleError(e);
+    }
+  }
+
+  /**
+   * Re-schedules or schedule member notification after editing
+   * @param member
+   * @returns {Promise<void>}
+   */
+  async updateMemberNotification(member: Member) {
+    try {
+      const plt = await this.platform.ready();
+      if (plt) {
+        let celebrantList = await this.storage.getItem(AppConstants.CELEBRANTS);
+        const memberNotificationIndex = _.indexOf(celebrantList, member.key);
+
+        if (memberNotificationIndex >= 0) {
+          celebrantList = _.pull(
+            celebrantList,
+            celebrantList[memberNotificationIndex]
+          );
+          await this.storage.setItem(AppConstants.CELEBRANTS, celebrantList);
+        }
+
+        this.scheduleBirthDayNotification([member]);
+      }
+    } catch (e) {
+      NotificationsProvider.handleError(e);
     }
   }
 
@@ -33,10 +65,9 @@ export class NotificationsProvider {
    * @param members
    *
    * {
-   *   celebrants: {
-   *     0: ['_Inaiw32', '_Ijwi921'],
-   *     1: ['_K823ew', '_O99232'],
-   *   }
+   *   celebrants: [
+   *     ['_K823ew', '_O99232'],
+   *   ]
    *}
    */
   async scheduleBirthDayNotification(members: Member[]) {
@@ -50,10 +81,7 @@ export class NotificationsProvider {
         if (notificationParamsList.length > 0) {
           this.localNotifications.schedule(notificationParamsList);
 
-          await this.storage.setItem(
-            AppConstants.CELEBRANTS,
-            this.monthCelebrants
-          );
+          await this.storage.setItem(AppConstants.CELEBRANTS, this.celebrants);
         }
       }
     } catch (e) {
@@ -68,35 +96,31 @@ export class NotificationsProvider {
    * @param members
    */
   async getBirthDayNotificationParams(members: Member[]) {
-    const month = new Date().getMonth();
     let notificationParamsList = [];
-    this.monthCelebrants = {};
+    this.celebrants = [];
 
     try {
-      this.monthCelebrants = await this.storage.getItem(
-        AppConstants.CELEBRANTS
-      );
+      this.celebrants = await this.storage.getItem(AppConstants.CELEBRANTS);
     } catch (e) {
       if (e.code !== 2) {
         // ITEM_NOT_FOUND
-        console.log(e);
+        NotificationsProvider.handleError(e);
       }
     }
+    console.log(
+      'Existing scheduled celebrants => ' + JSON.stringify(this.celebrants)
+    );
 
     members.forEach(member => {
-      if (
-        this.monthCelebrants[month] !== undefined &&
-        this.monthCelebrants[month].indexOf(member.key) >= 0
-      ) {
+      if (_.indexOf(this.celebrants, member.key) >= 0) {
         return;
       }
 
       const scheduleParams = NotificationsProvider.composeBirthdayNotification(
-        member
+        member,
+        this.celebrants.length + 1
       );
-      this.monthCelebrants[month]
-        ? this.monthCelebrants[month].push(member.key)
-        : (this.monthCelebrants[month] = [member.key]);
+      this.celebrants.push(member.key);
       notificationParamsList.push(scheduleParams);
     });
 
@@ -107,24 +131,33 @@ export class NotificationsProvider {
    * Composes birthday notification details
    *
    * @param member
+   * @param id
    * @returns {{title: string, text: string, trigger: {at: Date}, data: Member}}
    */
-  static composeBirthdayNotification(member: Member) {
+  static composeBirthdayNotification(member: Member, id: number) {
     const msg = `Today is ${member.firstName} ${member.lastName} birthday`;
-    const birthDate = Date.parse(
-      `${member.birthDate}, ` + new Date().getFullYear()
+    const birthDate = new Date(
+      Date.parse(`${member.birthDate}, ` + new Date().getFullYear())
     );
-    const scheduleTime = new Date(new Date(birthDate).setHours(7));
+
+    const scheduleTime = {
+      month: birthDate.getMonth() + 1,
+      day: birthDate.getDate(),
+      hour: 8,
+      minute: 0
+    };
 
     return {
+      id: id,
       title: 'Birthday Celebrant',
       text: msg,
-      trigger: { at: scheduleTime },
-      data: member
+      trigger: { count: 1, every: scheduleTime },
+      data: member,
+      icon: member.avatar
     };
   }
 
   static handleError(e) {
-    console.log(JSON.stringify(e));
+    console.log(e);
   }
 }

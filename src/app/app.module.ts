@@ -18,7 +18,7 @@ import { MemberProvider } from '../providers/member/member';
 import { NotificationsProvider } from '../providers/notifications/notifications';
 import { FilterComponent } from '../components/filter/filter';
 import { PictureSourceComponent } from '../components/picture-source/picture-source';
-import {AngularFireStorageModule} from "angularfire2/storage";
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [MyApp, FilterComponent, PictureSourceComponent],

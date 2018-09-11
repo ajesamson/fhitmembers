@@ -103,6 +103,7 @@ export class MembersListPage {
           this.celebrantList = this.memberProvider.getBirthDayCelebrants(
             this.memberList
           );
+
           if (
             this.celebrantList.dayCelebrants.length > 0 ||
             this.celebrantList.upcomingCelebrants.length > 0 ||

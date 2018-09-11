@@ -27,7 +27,7 @@ export class EditMemberPage {
    * @returns {Promise<void>}
    */
   async onMemberModified() {
-    await this.notificationProvider.clearAllNotificationList();
+    await this.notificationProvider.updateMemberNotification(this.member);
     this.navCtrl.pop().catch(EditMemberPage.handleError);
   }
 
