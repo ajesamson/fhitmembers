@@ -11,6 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { IonicImageLoader } from 'ionic-image-loader';
+import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { CameraProvider } from '../providers/camera/camera';
@@ -24,11 +25,12 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
   declarations: [MyApp, FilterComponent, PictureSourceComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    IonicImageLoader.forRoot()
+    HttpModule,
+    IonicImageLoader.forRoot(),
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, FilterComponent, PictureSourceComponent],

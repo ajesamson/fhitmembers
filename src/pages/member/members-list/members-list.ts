@@ -122,7 +122,7 @@ export class MembersListPage {
           this.initCelebrantList(this.memberList);
           this.notificationProvider.scheduleBirthDayNotification(
             this.celebrantList.upcomingCelebrants
-          );
+          ).catch(e => MembersListPage.handleError(e));
         }
       });
   }
