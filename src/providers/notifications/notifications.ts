@@ -25,6 +25,7 @@ export class NotificationsProvider {
     try {
       const plt = await this.platform.ready();
       if (plt) {
+        await this.localNotifications.clearAll();
         await this.storage.remove(AppConstants.CELEBRANTS);
       }
     } catch (e) {

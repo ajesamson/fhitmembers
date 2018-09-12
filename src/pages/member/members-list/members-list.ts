@@ -119,18 +119,7 @@ export class MembersListPage {
         }));
         if (this.memberStatus === AppConstants.MEMBER_STATUS.all) {
           this.storeMemberListOffline();
-          this.celebrantList = this.memberProvider.getBirthDayCelebrants(
-            this.memberList
-          );
-
-          if (
-            this.celebrantList.dayCelebrants.length > 0 ||
-            this.celebrantList.upcomingCelebrants.length > 0 ||
-            this.celebrantList.laterInMonthCelebrants.length > 0
-          ) {
-            this.celebrantExist = true;
-          }
-
+          this.initCelebrantList(this.memberList);
           this.notificationProvider.scheduleBirthDayNotification(
             this.celebrantList.upcomingCelebrants
           );
@@ -146,8 +135,26 @@ export class MembersListPage {
   async getOfflineMemberList() {
     const loader = this.presentLoadingDefault();
     this.memberList = await this.memberProvider.getOfflineMembers();
+
+    this.initCelebrantList(this.memberList);
     loader.dismissAll();
     await this.presentAlert();
+  }
+
+  /**
+   * Initializes the celebrants list
+   * @param memberList
+   */
+  initCelebrantList(memberList: Member[]) {
+    this.celebrantList = this.memberProvider.getBirthDayCelebrants(memberList);
+
+    if (
+      this.celebrantList.dayCelebrants.length > 0 ||
+      this.celebrantList.upcomingCelebrants.length > 0 ||
+      this.celebrantList.laterInMonthCelebrants.length > 0
+    ) {
+      this.celebrantExist = true;
+    }
   }
 
   /**
