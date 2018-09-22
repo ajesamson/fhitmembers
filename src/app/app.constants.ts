@@ -25,5 +25,7 @@ export const AppConstants = {
   NEW_MEMBER: {
     add: 'add',
     csv: 'import'
-  }
+  },
+  LIMITED_INTERNET_CONNECTION: 'Please check your internet connection',
+  EMPTY_CSV_DATA: 'Uploaded file is empty'
 };

@@ -187,7 +187,7 @@ export class MembersListPage {
   async presentAlert() {
     let alert = this.alertCtrl.create({
       title: 'No Connection',
-      subTitle: 'Please check your internet connection',
+      subTitle: AppConstants.LIMITED_INTERNET_CONNECTION,
       buttons: ['Dismiss']
     });
     await alert.present();

@@ -6,9 +6,12 @@
     </ion-avatar>
     <h2>{{member.firstName}} {{member.lastName}}</h2>
     <p>{{member.phoneNumber}}</p>
-    <ion-avatar item-right>
+    <ion-avatar *ngIf="member.birthDate === 'Invalid date'" item-right >
+      <ion-icon name="warning"></ion-icon>
+    </ion-avatar>
+    <ion-avatar *ngIf="member.birthDate !== 'Invalid date'" item-right >
       <p>{{member.birthDate | date: 'MMM dd'}}</p>
-      <ion-icon name="calendar"></ion-icon>
+      <ion-icon name="calendar" align-items-center></ion-icon>
     </ion-avatar>
   </ion-item>
 </ion-list>

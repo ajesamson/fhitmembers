@@ -1,4 +1,20 @@
-<!-- Generated template for the ImportMemberComponent component -->
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <input type="file" (change)="uploadFile($event)" class="inputfile" id="file">
+      <label for="file">{{fileLabel}}</label>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div *ngIf="uploadedMembers.length > 0">
+        <app-members-list [memberList]="uploadedMembers" [memberStatus]="memberStatus"></app-members-list>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 <div>
-  {{text}}
+
 </div>
+
+
