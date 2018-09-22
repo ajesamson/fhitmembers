@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { Network } from '@ionic-native/network';
 import * as papa from 'papaparse';
 import * as moment from 'moment';
 
 import { Member } from '../../models/member/member.interface';
-import { MemberProvider } from '../../providers/member/member';
 import { AppConstants } from '../../app/app.constants';
 
 @Component({
@@ -13,18 +12,17 @@ import { AppConstants } from '../../app/app.constants';
   templateUrl: 'import-member.html'
 })
 export class ImportMemberComponent {
+  @Output()
+  uploaded: EventEmitter<Member[]>;
   fileUpload: any;
   fileLabel: string = 'Choose a file';
   member: Member;
   uploadedMembers: Member[] = [];
   memberStatus: string = AppConstants.MEMBER_STATUS.all;
 
-  constructor(
-    private memberProvider: MemberProvider,
-    private nav: NavController,
-    private toastCtrl: ToastController,
-    private network: Network
-  ) {}
+  constructor(private toastCtrl: ToastController, private network: Network) {
+    this.uploaded = new EventEmitter();
+  }
 
   /**
    * Uploads a file and extracts member data
@@ -84,7 +82,15 @@ export class ImportMemberComponent {
       this.member.statusReason = statusReason;
 
       this.uploadedMembers.push(this.member);
+      this.memberUploaded();
     }
+  }
+
+  /**
+   * Triggers the uploaded event
+   */
+  memberUploaded() {
+    this.uploaded.emit(this.uploadedMembers);
   }
 
   handleError(e: string) {

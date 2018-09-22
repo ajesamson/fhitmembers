@@ -27,5 +27,6 @@ export const AppConstants = {
     csv: 'import'
   },
   LIMITED_INTERNET_CONNECTION: 'Please check your internet connection',
+  NO_CONNECTION: 'No Connection',
   EMPTY_CSV_DATA: 'Uploaded file is empty'
 };

@@ -1,9 +1,18 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Import Member</ion-title>
+    <ion-buttons end>
+      <button ion-button clear align-items-end disabled
+              *ngIf="savingStatus === true || uploadedMembers.length === 0"
+      >Save</button>
+      <button ion-button clear align-items-end
+              (click)="saveUploadedMembers()"
+              *ngIf="savingStatus === false && uploadedMembers.length > 0"
+      >Save</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <import-member></import-member>
+  <import-member (uploaded)="memberUploaded($event)"></import-member>
 </ion-content>

@@ -7,7 +7,7 @@
     <h2>{{member.firstName}} {{member.lastName}}</h2>
     <p>{{member.phoneNumber}}</p>
     <ion-avatar *ngIf="member.birthDate === 'Invalid date'" item-right >
-      <ion-icon name="warning"></ion-icon>
+      <ion-icon name="notifications-off"></ion-icon>
     </ion-avatar>
     <ion-avatar *ngIf="member.birthDate !== 'Invalid date'" item-right >
       <p>{{member.birthDate | date: 'MMM dd'}}</p>

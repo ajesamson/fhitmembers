@@ -3,7 +3,10 @@
     <ion-col col-12>
       <ion-avatar justify-content-center>
         <img [src]="member?.avatar || 'assets/imgs/profile-default.png'"/>
-        <button ion-button icon-only round color="secondary" (click)="chosePicture()">
+        <button ion-button icon-only round
+                color="secondary"
+                *ngIf="member?.key !== undefined"
+                (click)="chosePicture()">
           <ion-icon name="camera"></ion-icon>
         </button>
         <h2 text-center>
