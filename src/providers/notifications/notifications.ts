@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NativeStorage } from '@ionic-native/native-storage';
-import { Platform } from 'ionic-angular';
+import {AlertController, LoadingController, Platform, ToastController} from 'ionic-angular';
 import * as _ from 'lodash';
 
 import { AppConstants } from '../../app/app.constants';
@@ -12,6 +12,9 @@ export class NotificationsProvider {
   celebrants: string[];
 
   constructor(
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
     private localNotifications: LocalNotifications,
     private platform: Platform,
     private storage: NativeStorage
@@ -29,7 +32,7 @@ export class NotificationsProvider {
         await this.storage.remove(AppConstants.CELEBRANTS);
       }
     } catch (e) {
-      NotificationsProvider.handleError(e);
+      this.handleError(e);
     }
   }
 
@@ -56,7 +59,7 @@ export class NotificationsProvider {
         this.scheduleBirthDayNotification([member]);
       }
     } catch (e) {
-      NotificationsProvider.handleError(e);
+      this.handleError(e);
     }
   }
 
@@ -86,7 +89,7 @@ export class NotificationsProvider {
         }
       }
     } catch (e) {
-      NotificationsProvider.handleError(e);
+      this.handleError(e);
     }
   }
 
@@ -105,7 +108,7 @@ export class NotificationsProvider {
     } catch (e) {
       if (e.code !== 2) {
         // ITEM_NOT_FOUND
-        NotificationsProvider.handleError(e);
+        this.handleError(e);
       }
     }
     console.log(
@@ -158,7 +161,51 @@ export class NotificationsProvider {
     };
   }
 
-  static handleError(e) {
+  handleError(e) {
     console.log(e);
+    this.showToast(e);
   }
+
+  /**
+   * Show loading spinner
+   */
+  presentLoadingDefault() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    loading.present().catch(this.handleError);
+
+    return loading;
+  }
+
+  /**
+   * Shows notification to user
+   *
+   * @returns {Promise<void>}
+   */
+  async presentAlert(title: string, subTitle: string) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subTitle,
+      buttons: ['Dismiss']
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Shows message in a toast
+   * @param msg
+   */
+  showToast(msg: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 5000,
+      position: 'bottom'
+    });
+
+    toast.present();
+  }
+
 }
