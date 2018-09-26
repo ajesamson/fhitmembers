@@ -1,17 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Network } from '@ionic-native/network';
 import * as papa from 'papaparse';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 import { Member } from '../../models/member/member.interface';
 import { AppConstants } from '../../app/app.constants';
+import { MemberImportProvider } from '../../providers/member/member-import';
+import { NotificationsProvider } from '../../providers/notifications/notifications';
 
 @Component({
   selector: 'import-member',
   templateUrl: 'import-member.html'
 })
-export class ImportMemberComponent {
+export class ImportMemberComponent implements OnInit {
   @Output()
   uploaded: EventEmitter<Member[]>;
   fileUpload: any;
@@ -20,8 +22,21 @@ export class ImportMemberComponent {
   uploadedMembers: Member[] = [];
   memberStatus: string = AppConstants.MEMBER_STATUS.all;
 
-  constructor(private toastCtrl: ToastController, private network: Network) {
+  constructor(
+    private network: Network,
+    private memberImportProvider: MemberImportProvider,
+    private notificationsProvider: NotificationsProvider
+  ) {
     this.uploaded = new EventEmitter();
+  }
+
+  ngOnInit() {
+    this.memberImportProvider.previewUpdated.subscribe(
+      (data: { member: Member; updatedMemberData: Member }) => {
+        const foundIndex = _.findIndex(this.uploadedMembers, data.member);
+        this.uploadedMembers.splice(foundIndex, 1, data.updatedMemberData);
+      }
+    );
   }
 
   /**
@@ -57,6 +72,7 @@ export class ImportMemberComponent {
   addMembers(membersData) {
     if (membersData.length <= 1) {
       this.handleError(AppConstants.EMPTY_CSV_DATA);
+      return;
     }
 
     this.uploadedMembers = [] as Member[];
@@ -95,12 +111,6 @@ export class ImportMemberComponent {
 
   handleError(e: string) {
     this.fileLabel = 'Choose a file';
-    let toast = this.toastCtrl.create({
-      message: e,
-      duration: 3000,
-      position: 'bottom'
-    });
-
-    toast.present();
+    this.notificationsProvider.showToast(e);
   }
 }

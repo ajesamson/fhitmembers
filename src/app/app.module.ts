@@ -20,6 +20,7 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
 import { FilterComponent } from '../components/filter/filter';
 import { PictureSourceComponent } from '../components/picture-source/picture-source';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { MemberImportProvider } from '../providers/member/member-import';
 
 @NgModule({
   declarations: [MyApp, FilterComponent, PictureSourceComponent],
@@ -44,7 +45,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     NativeStorage,
     CameraProvider,
     MemberProvider,
-    NotificationsProvider
+    NotificationsProvider,
+    MemberImportProvider
   ]
 })
 export class AppModule {}

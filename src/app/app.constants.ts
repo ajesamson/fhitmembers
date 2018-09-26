@@ -28,5 +28,9 @@ export const AppConstants = {
   },
   LIMITED_INTERNET_CONNECTION: 'Please check your internet connection',
   NO_CONNECTION: 'No Connection',
-  EMPTY_CSV_DATA: 'Uploaded file is empty'
+  EMPTY_CSV_DATA: 'Uploaded file is empty',
+  SUCCESS_MESSAGE: {
+    added: 'New member added successfully',
+    updated: 'Member details updated successfully.'
+  }
 };

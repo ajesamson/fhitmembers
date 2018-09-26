@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Member } from '../../models/member/member.interface';
-import { MemberProvider } from '../../providers/member/member';
 
 @Component({
   selector: 'app-member-form',
@@ -32,7 +31,7 @@ export class MemberFormComponent implements OnInit, OnChanges {
   status: FormControl;
   statusReason: FormControl;
 
-  constructor(private memberProvider: MemberProvider) {
+  constructor() {
     this.memberModified = new EventEmitter();
   }
 
@@ -42,7 +41,7 @@ export class MemberFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.memberData && this.memberData.key) {
+    if (this.memberData) {
       this.memberForm.patchValue(this.memberData);
       this.active = this.memberData.status;
     }
@@ -99,10 +98,6 @@ export class MemberFormComponent implements OnInit, OnChanges {
         // add member data
         this.memberData = this.memberForm.value;
         this.memberData.status = this.active;
-
-        this.memberProvider.addMember(this.memberData).then(() => {
-          this.memberModified.emit();
-        });
       } else {
         // update member data
         const profiles = this.memberForm.value;
@@ -118,11 +113,9 @@ export class MemberFormComponent implements OnInit, OnChanges {
         this.memberData.statusReason = profiles.status
           ? ''
           : profiles.statusReason || '';
-
-        this.memberProvider.updateMember(this.memberData).then(() => {
-          this.memberModified.emit();
-        });
       }
+
+      this.memberModified.emit(this.memberData);
     }
   }
 }

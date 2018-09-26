@@ -1,23 +1,33 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Member } from '../../models/member/member.interface';
 import { CameraProvider } from '../../providers/camera/camera';
 import { ModalController } from 'ionic-angular';
 import { PictureSourceComponent } from '../picture-source/picture-source';
 import { AppConstants } from '../../app/app.constants';
+import { MemberImportProvider } from '../../providers/member/member-import';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: 'member-detail.html'
 })
-export class MemberDetailComponent {
+export class MemberDetailComponent implements OnInit {
   @Input()
   member: Member;
   defaultInfo = 'Not available';
 
   constructor(
     private cameraProvider: CameraProvider,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private memberImportProvider: MemberImportProvider
   ) {}
+
+  ngOnInit() {
+    this.memberImportProvider.previewUpdated.subscribe(
+      (data: { member: Member; updatedMemberData: Member }) => {
+        this.member = data.updatedMemberData;
+      }
+    );
+  }
 
   async chosePicture() {
     let pictureModal = this.modalCtrl.create(PictureSourceComponent);
