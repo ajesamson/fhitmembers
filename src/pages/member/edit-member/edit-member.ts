@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Member } from '../../../models/member/member.interface';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';

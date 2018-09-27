@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';
 import { Network } from '@ionic-native/network';
