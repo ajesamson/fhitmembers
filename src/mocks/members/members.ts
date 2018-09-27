@@ -118,4 +118,11 @@ const memberList: Member[] = [{
   statusReason: 'Disp fx of body of scapula, left shoulder, init for clos fx'
 }];
 
+const memberCSV = {
+  fields: ["First Name","Last Name","Gender","Address","Phone Number","Birth Date","Department","Status"],
+  data: ["Peter","Preacher","Male","Peter's Lodge","1111","Oct 1","MMU","active"]
+};
+
 export const MEMBER_LIST = memberList;
+
+export const SAMPLE_CSV = memberCSV;

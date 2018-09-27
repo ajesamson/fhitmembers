@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';
 import { Network } from '@ionic-native/network';
+import * as papa from 'papaparse';
 
 import { MemberProvider } from '../../../providers/member/member';
 import { Member } from '../../../models/member/member.interface';
 import { AppConstants } from '../../../app/app.constants';
+import { SAMPLE_CSV } from '../../../mocks/members/members';
 
 @IonicPage()
 @Component({
@@ -53,5 +55,21 @@ export class ImportMemberPage {
    */
   memberUploaded(members: Member[]) {
     this.uploadedMembers = members;
+  }
+
+  /**
+   * Saves sample csv file to device
+   */
+  downloadCSV() {
+    this.notificationsProvider.showToast('Downloading sample csv file...');
+    let csv = papa.unparse(SAMPLE_CSV);
+
+    const blob = new Blob([csv]);
+    const a = window.document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = 'member.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }

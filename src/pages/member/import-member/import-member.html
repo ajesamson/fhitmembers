@@ -13,6 +13,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <import-member (uploaded)="memberUploaded($event)"></import-member>
+  <ion-fab right bottom>
+    <button ion-fab color="light" mini color="primary" (click)="downloadCSV()">
+      <ion-icon name="download"></ion-icon>
+    </button>
+  </ion-fab>
+
 </ion-content>
