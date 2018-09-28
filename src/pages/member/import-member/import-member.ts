@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';
 import { Network } from '@ionic-native/network';
+import { File } from '@ionic-native/file';
 import * as papa from 'papaparse';
 
 import { MemberProvider } from '../../../providers/member/member';
@@ -19,6 +20,7 @@ export class ImportMemberPage {
   savingStatus: boolean = false;
 
   constructor(
+    private file: File,
     private notificationsProvider: NotificationsProvider,
     private network: Network,
     private memberProvider: MemberProvider
@@ -60,16 +62,20 @@ export class ImportMemberPage {
   /**
    * Saves sample csv file to device
    */
-  downloadCSV() {
-    this.notificationsProvider.showToast('Downloading sample csv file...');
-    let csv = papa.unparse(SAMPLE_CSV);
+  async downloadCSV() {
+    const filePath = this.file.externalDataDirectory;
+    const fileName = 'member.csv';
+    const csv = papa.unparse(SAMPLE_CSV);
+    const fileContent = new Blob([csv]);
 
-    const blob = new Blob([csv]);
-    const a = window.document.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = 'member.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    try {
+      let newDir = await this.file.createDir(filePath, 'templates', true );
+
+      await this.file.writeFile(newDir.toURL(), fileName, fileContent, {replace: true});
+      this.notificationsProvider.showToast(`File saved to \n${newDir.toURL()}`);
+    } catch (e) {
+      this.notificationsProvider.showToast(JSON.stringify(e));
+    }
+
   }
 }

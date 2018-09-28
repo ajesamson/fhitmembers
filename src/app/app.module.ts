@@ -7,6 +7,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { File } from '@ionic-native/file';
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from './firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -42,6 +43,7 @@ import { MemberImportProvider } from '../providers/member/member-import';
     LocalNotifications,
     Network,
     Camera,
+    File,
     NativeStorage,
     CameraProvider,
     MemberProvider,
