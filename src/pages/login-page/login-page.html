@@ -1,9 +1,3 @@
-<!--
-  Generated template for the LoginPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -14,25 +8,11 @@
 
 
 <ion-content padding>
-  <img src="assets/img/logo.png" alt="Members">
+  <div class="login">
+    <h1>MemberFhit</h1>
 
-  <ion-item>
-    <ion-label floating>Username</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label floating>Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
-
-  <ion-row padding>
-    <button ion-button round block  (click)="navigateToPage('TabsPage')">Sign In</button>
-  </ion-row>
-
-  <ion-row padding>
-    <div text-center>
-      Don't have an account? <a (click)="navigateToPage('RegisterPage')">Register</a>
+    <div class="googleLogin">
+      <google-login></google-login>
     </div>
-  </ion-row>
+  </div>
 </ion-content>

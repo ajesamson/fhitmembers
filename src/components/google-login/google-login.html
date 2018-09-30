@@ -1,0 +1,13 @@
+<div *ngIf="(user | async) || {} as user">
+  <button ion-button round
+    *ngIf="!user.uid"
+   (tap)="googleLogin()">
+   Login with Google
+  </button>
+
+  <div *ngIf="user.uid" text-center>
+    Welcome <br/><br/>
+    <h3>{{ user.displayName }}</h3>
+    <button ion-button round block navPush="TabsPage">Continue</button>
+  </div>
+</div>

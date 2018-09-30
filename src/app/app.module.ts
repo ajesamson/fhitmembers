@@ -8,8 +8,9 @@ import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { File } from '@ionic-native/file';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
-import { FIREBASE_CONFIG } from './firebase.credentials';
+import { FIREBASE_CONFIG } from '../config/firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { IonicImageLoader } from 'ionic-image-loader';
 import { HttpModule } from '@angular/http';
@@ -21,6 +22,7 @@ import { NotificationsProvider } from '../providers/notifications/notifications'
 import { FilterComponent } from '../components/filter/filter';
 import { PictureSourceComponent } from '../components/picture-source/picture-source';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MemberImportProvider } from '../providers/member/member-import';
 
 @NgModule({
@@ -30,6 +32,7 @@ import { MemberImportProvider } from '../providers/member/member-import';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    AngularFireAuthModule,
     HttpModule,
     IonicImageLoader.forRoot(),
     IonicModule.forRoot(MyApp)
@@ -44,6 +47,7 @@ import { MemberImportProvider } from '../providers/member/member-import';
     Network,
     Camera,
     File,
+    GooglePlus,
     NativeStorage,
     CameraProvider,
     MemberProvider,
