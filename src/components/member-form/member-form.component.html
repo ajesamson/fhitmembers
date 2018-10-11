@@ -67,6 +67,6 @@
   </ion-list>
 
   <ion-row padding>
-    <button ion-button type="submit" [disabled]="memberForm.invalid">Save</button>
+    <button ion-button type="submit" [disabled]="memberForm.invalid || savingStatus">Save</button>
   </ion-row>
 </form>
