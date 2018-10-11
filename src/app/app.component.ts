@@ -8,7 +8,7 @@ import { ImageLoaderConfig } from 'ionic-image-loader';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: string = 'LoginPage';
+  rootPage: string = 'TabsPage';
 
   constructor(
     platform: Platform,
