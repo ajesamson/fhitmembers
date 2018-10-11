@@ -26,8 +26,7 @@ export const AppConstants = {
     add: 'add',
     csv: 'import'
   },
-  LIMITED_INTERNET_CONNECTION: 'Please check your internet connection',
-  NO_CONNECTION: 'No Connection',
+  LIMITED_INTERNET_CONNECTION: 'No Connection. \nPlease check your internet connection.',
   EMPTY_CSV_DATA: 'Uploaded file is empty',
   SUCCESS_MESSAGE: {
     added: 'New member added successfully',

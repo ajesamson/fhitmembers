@@ -31,10 +31,7 @@ export class ImportMemberPage {
    */
   saveUploadedMembers() {
     if (this.network.type === 'none') {
-      this.notificationsProvider.presentAlert(
-        AppConstants.NO_CONNECTION,
-        AppConstants.LIMITED_INTERNET_CONNECTION
-      );
+      this.notificationsProvider.showToast(AppConstants.LIMITED_INTERNET_CONNECTION);
 
       return;
     }
@@ -76,6 +73,5 @@ export class ImportMemberPage {
     } catch (e) {
       this.notificationsProvider.showToast(JSON.stringify(e));
     }
-
   }
 }

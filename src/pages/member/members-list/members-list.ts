@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {
-  AlertController,
   FabContainer,
   IonicPage,
-  LoadingController,
   NavController,
   PopoverController
 } from 'ionic-angular';
@@ -35,9 +33,7 @@ export class MembersListPage {
   constructor(
     private nav: NavController,
     private popoverCtrl: PopoverController,
-    private loadingCtrl: LoadingController,
     private network: Network,
-    private alertCtrl: AlertController,
     private notificationProvider: NotificationsProvider,
     private memberProvider: MemberProvider
   ) {}
@@ -47,6 +43,13 @@ export class MembersListPage {
     await this.loadMemberData();
   }
 
+  /**
+   * Refreshes page content
+   *
+   * @param refresher
+   *
+   * @returns {Promise<void>}
+   */
   async refreshPage(refresher) {
     await this.loadMemberData();
     refresher.complete();
@@ -54,6 +57,7 @@ export class MembersListPage {
 
   /**
    * Loads member data depending on network status
+   *
    * @returns {Promise<void>}
    */
   async loadMemberData() {
@@ -107,7 +111,7 @@ export class MembersListPage {
    * Loads all members or members by status
    */
   updateMemberList() {
-    let loading = this.presentLoadingDefault();
+    let loading = this.notificationProvider.presentLoadingDefault();
     this.memberProvider
       .getMembers(this.memberStatus)
       .snapshotChanges()
@@ -133,12 +137,17 @@ export class MembersListPage {
    * @returns {Promise<void>}
    */
   async getOfflineMemberList() {
-    const loader = this.presentLoadingDefault();
-    this.memberList = await this.memberProvider.getOfflineMembers();
+    try {
+      const loader = this.notificationProvider.presentLoadingDefault();
+      this.memberList = await this.memberProvider.getOfflineMembers();
 
-    this.initCelebrantList(this.memberList);
-    loader.dismissAll();
-    await this.presentAlert();
+      this.initCelebrantList(this.memberList);
+      loader.dismissAll();
+      this.notificationProvider.showToast(AppConstants.LIMITED_INTERNET_CONNECTION);
+    } catch (e) {
+      MembersListPage.handleError(e);
+    }
+
   }
 
   /**
@@ -164,33 +173,6 @@ export class MembersListPage {
     this.memberProvider
       .storeMemberOffline(this.memberList)
       .catch(MembersListPage.handleError);
-  }
-
-  /**
-   * Show loading spinner
-   */
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-
-    loading.present().catch(MembersListPage.handleError);
-
-    return loading;
-  }
-
-  /**
-   * Shows notification to user
-   *
-   * @returns {Promise<void>}
-   */
-  async presentAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'No Connection',
-      subTitle: AppConstants.LIMITED_INTERNET_CONNECTION,
-      buttons: ['Dismiss']
-    });
-    await alert.present();
   }
 
   static handleError(e) {
