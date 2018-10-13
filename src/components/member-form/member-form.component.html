@@ -1,6 +1,9 @@
 <form [formGroup]="memberForm" novalidate (ngSubmit)="onSubmit()">
-
   <ion-list>
+    <ion-list-header>
+      <h2>Member Data</h2>
+    </ion-list-header>
+
     <ion-item>
       <ion-label floating>First name</ion-label>
       <ion-input type="text" [formControl]="firstName"></ion-input>
@@ -35,11 +38,6 @@
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Birth date</ion-label>
-      <ion-input type="text" [formControl]="birthDate"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label floating>Department(s)</ion-label>
       <ion-select [formControl]="department" multiple="true" >
         <ion-option value="M.M.U">M.M.U.</ion-option>
@@ -48,6 +46,13 @@
         <ion-option value="Youth">Youth</ion-option>
         <ion-option value="Student">Student</ion-option>
       </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <div class="date-picker">
+        <label>Birth Date: {{memberBirthDate}}</label>
+        <button align-right type="button"  ion-button clear (click)="showDatePicker()">Show Date Picker</button>
+      </div>
     </ion-item>
 
     <ion-item-divider>STATUS</ion-item-divider>

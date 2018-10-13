@@ -7,6 +7,8 @@ import {
   OnChanges
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatePicker, DatePickerOptions } from '@ionic-native/date-picker';
+import * as moment from 'moment';
 import { Member } from '../../models/member/member.interface';
 
 @Component({
@@ -19,6 +21,7 @@ export class MemberFormComponent implements OnInit, OnChanges {
   @Input()
   memberData = {} as Member;
   active = true;
+  memberBirthDate: string;
   memberForm: FormGroup;
   firstName: FormControl;
   lastName: FormControl;
@@ -31,7 +34,7 @@ export class MemberFormComponent implements OnInit, OnChanges {
   status: FormControl;
   statusReason: FormControl;
 
-  constructor() {
+  constructor(private datePicker: DatePicker) {
     this.memberModified = new EventEmitter();
   }
 
@@ -43,6 +46,7 @@ export class MemberFormComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.memberData) {
       this.memberForm.patchValue(this.memberData);
+      this.memberBirthDate = this.memberData.birthDate;
       this.active = this.memberData.status;
     }
   }
@@ -89,10 +93,29 @@ export class MemberFormComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Shows date picker
+   */
+  async showDatePicker() {
+    try {
+      const datePickerOptions: DatePickerOptions = {
+        date: new Date(),
+        mode: 'date',
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+      };
+      const selectedDate = await this.datePicker.show(datePickerOptions);
+      this.memberBirthDate = moment(selectedDate).format('MMM DD');
+      this.memberForm.patchValue({ birthDate: this.memberBirthDate });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  /**
    * Submits form data for creation or updating
    * of member details
    */
   onSubmit() {
+    console.log(this.memberForm.value);
     if (this.memberForm.valid) {
       if (this.memberData.key === undefined) {
         // add member data

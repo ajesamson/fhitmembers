@@ -92,4 +92,5 @@
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.925603501984-v5is94pv2ckgvmd490q58lsgirn4346m" />
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
     </plugin>
+    <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
 </widget>

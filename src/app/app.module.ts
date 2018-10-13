@@ -14,6 +14,7 @@ import { FIREBASE_CONFIG } from '../config/firebase.credentials';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { IonicImageLoader } from 'ionic-image-loader';
 import { HttpModule } from '@angular/http';
+import { DatePicker } from '@ionic-native/date-picker';
 
 import { MyApp } from './app.component';
 import { CameraProvider } from '../providers/camera/camera';
@@ -52,7 +53,8 @@ import { MemberImportProvider } from '../providers/member/member-import';
     CameraProvider,
     MemberProvider,
     NotificationsProvider,
-    MemberImportProvider
+    MemberImportProvider,
+    DatePicker
   ]
 })
 export class AppModule {}
