@@ -88,7 +88,7 @@ export class MembersListPage {
     filterPopover.onDidDismiss(memberStatus => {
       if (this.memberStatus !== memberStatus && memberStatus !== null) {
         this.memberStatus = memberStatus;
-        this.updateMemberList();
+        this.loadMemberData().catch(e => MembersListPage.handleError(e));
       }
     });
   }
@@ -149,6 +149,12 @@ export class MembersListPage {
       this.memberList = await this.memberProvider.getOfflineMembers();
 
       this.initCelebrantList(this.memberList);
+      if (this.memberStatus !== AppConstants.MEMBER_STATUS.all) {
+        this.memberList = this.memberProvider.filterMemberList(
+          this.memberList,
+          { filterBy: 'status', query: this.memberStatus === 'true' }
+        );
+      }
       loader.dismissAll();
       this.notificationProvider.showToast(
         AppConstants.LIMITED_INTERNET_CONNECTION

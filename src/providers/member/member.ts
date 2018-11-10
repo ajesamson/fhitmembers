@@ -81,7 +81,10 @@ export class MemberProvider {
     members.forEach(member => {
       // TODO: Revamp date formatting to default YYYY-MM-DD
       const birthMonthDay = member.birthDate.split(' ');
-      const birthDay = birthMonthDay[1].length === 1 ?  '0' + birthMonthDay[1] : birthMonthDay[1];
+      const birthDay =
+        birthMonthDay[1].length === 1
+          ? '0' + birthMonthDay[1]
+          : birthMonthDay[1];
       const memberBirth =
         moment().year() +
         '-' +
@@ -146,5 +149,20 @@ export class MemberProvider {
     if (plt) {
       return await this.storage.getItem(AppConstants.MEMBERS_LIST);
     }
+  }
+
+  /**
+   * Filters member list by specified property, using a query string
+   * @param members
+   * @param filter
+   * @returns {Member[]}
+   */
+  filterMemberList(
+    members: Member[],
+    filter: { filterBy: string; query: any }
+  ) {
+    return members.filter(member => {
+      return member[filter.filterBy] === filter.query;
+    });
   }
 }
