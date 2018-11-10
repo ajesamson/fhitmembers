@@ -5,6 +5,7 @@ import { NotificationsProvider } from '../../../providers/notifications/notifica
 import { MemberProvider } from '../../../providers/member/member';
 import { AppConstants } from '../../../app/app.constants';
 import { MemberImportProvider } from '../../../providers/member/member-import';
+import { BirthdayNotificationProvider } from '../../../providers/birthday-notification/birthday-notification';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,8 @@ export class EditMemberPage {
     private navParams: NavParams,
     private notificationProvider: NotificationsProvider,
     private memberProvider: MemberProvider,
-    private memberImportProvider: MemberImportProvider
+    private memberImportProvider: MemberImportProvider,
+    private birthdayProvider: BirthdayNotificationProvider
   ) {}
 
   ionViewDidLoad() {
@@ -41,7 +43,7 @@ export class EditMemberPage {
         );
       });
 
-      await this.notificationProvider.updateMemberNotification(this.member);
+      await this.birthdayProvider.updateNotification(this.member);
     }
 
     if (updatedMemberData.key === undefined) {

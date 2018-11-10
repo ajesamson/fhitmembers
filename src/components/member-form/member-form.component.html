@@ -1,9 +1,5 @@
 <form [formGroup]="memberForm" novalidate (ngSubmit)="onSubmit()">
   <ion-list>
-    <ion-list-header>
-      <h2>Member Data</h2>
-    </ion-list-header>
-
     <ion-item>
       <ion-label floating>First name</ion-label>
       <ion-input type="text" [formControl]="firstName"></ion-input>

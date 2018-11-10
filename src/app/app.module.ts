@@ -25,6 +25,7 @@ import { PictureSourceComponent } from '../components/picture-source/picture-sou
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MemberImportProvider } from '../providers/member/member-import';
+import { BirthdayNotificationProvider } from '../providers/birthday-notification/birthday-notification';
 
 @NgModule({
   declarations: [MyApp, FilterComponent, PictureSourceComponent],
@@ -54,7 +55,8 @@ import { MemberImportProvider } from '../providers/member/member-import';
     MemberProvider,
     NotificationsProvider,
     MemberImportProvider,
-    DatePicker
+    DatePicker,
+    BirthdayNotificationProvider
   ]
 })
 export class AppModule {}

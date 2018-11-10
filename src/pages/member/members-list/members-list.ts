@@ -12,6 +12,7 @@ import { MemberProvider } from '../../../providers/member/member';
 import { FilterComponent } from '../../../components/filter/filter';
 import { NotificationsProvider } from '../../../providers/notifications/notifications';
 import { AppConstants } from '../../../app/app.constants';
+import { BirthdayNotificationProvider } from '../../../providers/birthday-notification/birthday-notification';
 
 interface Celebrant {
   dayCelebrants?: Member[];
@@ -35,7 +36,8 @@ export class MembersListPage {
     private popoverCtrl: PopoverController,
     private network: Network,
     private notificationProvider: NotificationsProvider,
-    private memberProvider: MemberProvider
+    private memberProvider: MemberProvider,
+    private birthdayProvider: BirthdayNotificationProvider
   ) {}
 
   async ionViewDidLoad() {
@@ -111,6 +113,7 @@ export class MembersListPage {
    * Loads all members or members by status
    */
   updateMemberList() {
+    let celebrants: Member[] = [];
     let loading = this.notificationProvider.presentLoadingDefault();
     this.memberProvider
       .getMembers(this.memberStatus)
@@ -124,9 +127,13 @@ export class MembersListPage {
         if (this.memberStatus === AppConstants.MEMBER_STATUS.all) {
           this.storeMemberListOffline();
           this.initCelebrantList(this.memberList);
-          this.notificationProvider.scheduleBirthDayNotification(
-            this.celebrantList.upcomingCelebrants
-          ).catch(e => MembersListPage.handleError(e));
+          celebrants = [
+            ...this.celebrantList.dayCelebrants,
+            ...this.celebrantList.upcomingCelebrants
+          ];
+          this.birthdayProvider
+            .addNotification(celebrants)
+            .catch(e => MembersListPage.handleError(e));
         }
       });
   }
@@ -143,11 +150,12 @@ export class MembersListPage {
 
       this.initCelebrantList(this.memberList);
       loader.dismissAll();
-      this.notificationProvider.showToast(AppConstants.LIMITED_INTERNET_CONNECTION);
+      this.notificationProvider.showToast(
+        AppConstants.LIMITED_INTERNET_CONNECTION
+      );
     } catch (e) {
       MembersListPage.handleError(e);
     }
-
   }
 
   /**
