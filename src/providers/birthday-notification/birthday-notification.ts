@@ -140,8 +140,7 @@ export class BirthdayNotificationProvider {
       title: 'Birthday Celebrant',
       text: msg,
       trigger: { count: 1, every: scheduleTime },
-      data: member,
-      icon: member.avatar
+      data: member
     };
   }
 
