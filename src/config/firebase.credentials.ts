@@ -1,9 +1,3 @@
-export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAfxksMlhGBc8hOFb64mZrUrc3OvxDNfWg",
-  authDomain: "members-4ee93.firebaseapp.com",
-  databaseURL: "https://members-4ee93.firebaseio.com",
-  projectId: "members-4ee93",
-  storageBucket: "members-4ee93.appspot.com",
-  messagingSenderId: "925603501984"
-};
+import { ENV } from '@app/env'
 
+export const FIREBASE_CONFIG = ENV.firebaseConfig;
