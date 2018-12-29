@@ -1,8 +1,8 @@
 {
   "name": "FhitMembers",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Samson Alajede",
+  "homepage": "https://github.com/ajesamson",
   "private": true,
   "scripts": {
     "start": "ionic-app-scripts serve",

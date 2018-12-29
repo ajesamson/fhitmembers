@@ -3,7 +3,6 @@ import {
   ILocalNotification,
   LocalNotifications
 } from '@ionic-native/local-notifications';
-import { NativeStorage } from '@ionic-native/native-storage';
 import {
   AlertController,
   LoadingController,
@@ -23,7 +22,6 @@ export class NotificationsProvider {
     private toastCtrl: ToastController,
     private localNotifications: LocalNotifications,
     private platform: Platform,
-    private storage: NativeStorage
   ) {}
 
   /**
@@ -34,8 +32,43 @@ export class NotificationsProvider {
     try {
       const plt = await this.platform.ready();
       if (plt) {
-        await this.localNotifications.clearAll();
-        await this.storage.remove(AppConstants.CELEBRANTS);
+        const cancelAll = await this.localNotifications.cancelAll();
+        console.log('Clear status => ', cancelAll);
+        await this.listScheduledNotifications();
+      }
+    } catch (e) {
+      this.handleError(e);
+    }
+  }
+
+  /**
+   * Logs scheduled notification ids to console
+   * @returns {Promise<void>}
+   */
+  async listScheduledNotifications() {
+    try {
+      const plt = await this.platform.ready();
+      if (plt) {
+        const scheduledIds = await this.localNotifications.getScheduledIds();
+        console.log('Scheduled => ', scheduledIds);
+        const triggered = await this.localNotifications.getTriggeredIds();
+        console.log('All triggered => ', triggered);
+        const allNotification = await this.localNotifications.getAll();
+        console.log('All Notification => ', allNotification);
+      }
+    } catch (e) {
+      this.handleError(e);
+    }
+  }
+
+  /**
+   * Retrieves all local notification object
+   */
+  async getAllLocalNotification() {
+    try {
+      const plt = await this.platform.ready();
+      if (plt) {
+        return await this.localNotifications.getAll();
       }
     } catch (e) {
       this.handleError(e);
@@ -62,7 +95,6 @@ export class NotificationsProvider {
 
   handleError(e) {
     console.log(e);
-    this.showToast(e);
   }
 
   /**

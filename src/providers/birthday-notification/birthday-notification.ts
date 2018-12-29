@@ -8,7 +8,7 @@ import { NotificationsProvider } from '../notifications/notifications';
 
 @Injectable()
 export class BirthdayNotificationProvider {
-  celebrants: string[];
+  celebrants: string[] = [];
 
   constructor(
     private notifications: NotificationsProvider,
@@ -55,9 +55,6 @@ export class BirthdayNotificationProvider {
           await this.notifications.scheduleLocalNotification(
             notificationParamsList
           );
-
-          await this.storage.setItem(AppConstants.CELEBRANTS, this.celebrants);
-          console.log('stored celebrants => ', this.celebrants);
         }
       }
     } catch (e) {
@@ -66,21 +63,29 @@ export class BirthdayNotificationProvider {
   }
 
   /**
-   * Loads celebrants from Native storage
+   * Loads celebrants key from local notification.
    * @returns {Promise<void>}
    */
   private async loadCelebrants() {
     try {
-      this.celebrants = await this.storage.getItem(AppConstants.CELEBRANTS);
-    } catch (e) {
-      if (e.code !== 2) {
-        // ITEM_NOT_FOUND
-        this.handleError(e);
+      const plt = await this.platform.ready();
+      if (!plt) {
+        return;
       }
+
+      const allNotifications = await this.notifications.getAllLocalNotification();
+      console.log('loadCelebrants::All Notification => ', allNotifications);
+      this.celebrants = allNotifications.map(notification => {
+        if (notification.data) {
+          const data = JSON.parse(notification.data);
+
+          return data.key;
+        }
+      });
+      console.log('loadCelebrants::checking celebrants => ', this.celebrants)
+    } catch (e) {
+      console.log(e);
     }
-    console.log(
-      'Existing scheduled celebrants => ' + JSON.stringify(this.celebrants)
-    );
   }
 
   /**
@@ -109,8 +114,6 @@ export class BirthdayNotificationProvider {
         member,
         notificationId
       );
-      console.log(JSON.stringify(scheduleParams));
-      this.celebrants.push(member.key);
       iLocalNotification.push(scheduleParams);
     });
 
@@ -131,7 +134,7 @@ export class BirthdayNotificationProvider {
     const scheduleTime = {
       month: birthDate.getMonth() + 1,
       day: birthDate.getDate(),
-      hour: 8,
+      hour: 7,
       minute: 0
     };
 
@@ -146,6 +149,5 @@ export class BirthdayNotificationProvider {
 
   handleError(e) {
     console.log(e);
-    this.notifications.showToast(e);
   }
 }
