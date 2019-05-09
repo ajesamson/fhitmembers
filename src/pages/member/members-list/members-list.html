@@ -2,7 +2,8 @@
   <ion-navbar>
     <ion-title>Members</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only navPush="SearchMemberPage" [navParams]="{memberList: memberList, memberStatus: memberStatus}">
+      <button ion-button icon-only navPush="SearchMemberPage"
+              [navParams]="{memberList: memberList, memberStatus: memberStatus}">
         <ion-icon name="search"></ion-icon>
       </button>
       <button [color]="celebrantExist ? 'danger' : 'dark'"
@@ -22,12 +23,22 @@
   <ion-refresher (ionRefresh)="refreshPage($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <app-members-list [memberList]="memberList" [memberStatus]="memberStatus"></app-members-list>
+  <app-members-list [memberList]="memberList" [memberStatus]="memberStatus"
+                    [memberDepartmentStatus]="memberDepartmentStatus"></app-members-list>
   <ion-fab right bottom #fab>
-    <button ion-fab mini><ion-icon name="person-add"></ion-icon></button>
+    <button ion-fab mini>
+      <ion-icon name="person-add"></ion-icon>
+    </button>
     <ion-fab-list side="top">
-      <button ion-fab (click)="newMember('add', fab)"><ion-icon name="keypad"></ion-icon></button>
-      <button ion-fab (click)="newMember('import', fab)"><ion-icon name="download"></ion-icon></button>
+      <button ion-fab (click)="newMember('add', fab)">
+        <ion-icon name="keypad"></ion-icon>
+      </button>
+      <button ion-fab (click)="newMember('import', fab)">
+        <ion-icon name="download"></ion-icon>
+      </button>
+      <button ion-fab (click)="clearNotifications(fab)">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>

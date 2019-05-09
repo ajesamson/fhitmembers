@@ -28,6 +28,8 @@ interface Celebrant {
 export class MembersListPage {
   memberList: Member[];
   memberStatus: string;
+  memberDepartmentStatus: string;
+  memberDepartment: string;
   celebrantList: Celebrant;
   celebrantExist = false;
 
@@ -42,6 +44,7 @@ export class MembersListPage {
 
   async ionViewDidLoad() {
     this.memberStatus = AppConstants.MEMBER_STATUS.all;
+    this.memberDepartmentStatus = AppConstants.DEFAULT_FILTER;
     await this.loadMemberData();
   }
 
@@ -79,15 +82,23 @@ export class MembersListPage {
    */
   showFilter(filterEvent) {
     let filterPopover = this.popoverCtrl.create(FilterComponent, {
-      memberStatus: this.memberStatus
+      memberStatus: this.memberStatus,
+      memberDepartmentStatus: this.memberDepartmentStatus
     });
     filterPopover.present({
       ev: filterEvent
     });
 
-    filterPopover.onDidDismiss(memberStatus => {
-      if (this.memberStatus !== memberStatus && memberStatus !== null) {
+    filterPopover.onDidDismiss((memberStatus, memberDepartment) => {
+      const memberStatusChanged =
+        this.memberStatus !== memberStatus && memberStatus !== null;
+      const memberDepartmentChanged =
+        this.memberDepartmentStatus !== memberDepartment &&
+        memberDepartment !== null;
+
+      if (memberStatusChanged || memberDepartmentChanged) {
         this.memberStatus = memberStatus;
+        this.memberDepartmentStatus = memberDepartment;
         this.loadMemberData().catch(e => MembersListPage.handleError(e));
       }
     });
@@ -104,6 +115,21 @@ export class MembersListPage {
       this.nav.push('AddMemberPage').catch(MembersListPage.handleError);
     } else {
       this.nav.push('ImportMemberPage').catch(MembersListPage.handleError);
+    }
+
+    fab.close();
+  }
+
+  /**
+   * Clears all scheduled notifications
+   * @param fab
+   * @returns {Promise<void>}
+   */
+  async clearNotifications(fab: FabContainer) {
+    try {
+      await this.notificationProvider.clearScheduledNotifications();
+    } catch (e) {
+      MembersListPage.handleError(e);
     }
 
     fab.close();
@@ -135,6 +161,12 @@ export class MembersListPage {
             .addNotification(celebrants)
             .catch(e => MembersListPage.handleError(e));
         }
+        if (this.memberDepartmentStatus !== AppConstants.DEFAULT_FILTER) {
+          this.memberList = this.memberProvider.filterByDepartment(
+            this.memberList,
+            this.memberDepartmentStatus
+          );
+        }
       });
   }
 
@@ -153,6 +185,12 @@ export class MembersListPage {
         this.memberList = this.memberProvider.filterMemberList(
           this.memberList,
           { filterBy: 'status', query: this.memberStatus === 'true' }
+        );
+      }
+      if (this.memberDepartment !== AppConstants.DEFAULT_FILTER) {
+        this.memberList = this.memberProvider.filterByDepartment(
+          this.memberList,
+          this.memberDepartmentStatus
         );
       }
       loader.dismissAll();

@@ -12,6 +12,8 @@ export class MembersListComponent implements OnChanges {
   @Input()
   memberStatus: string;
   @Input()
+  memberDepartmentStatus: string;
+  @Input()
   listsHeader: string;
   memberListHeader: string;
 
@@ -25,6 +27,13 @@ export class MembersListComponent implements OnChanges {
     if (this.memberStatus !== AppConstants.MEMBER_STATUS.all) {
       this.memberListHeader =
         this.memberStatus === 'true' ? 'ACTIVE' : 'INACTIVE';
+    }
+
+    if (
+      this.memberDepartmentStatus &&
+      this.memberDepartmentStatus !== AppConstants.DEFAULT_FILTER
+    ) {
+      this.memberListHeader += ' ' + this.memberDepartmentStatus.toUpperCase();
     }
 
     this.memberListHeader =

@@ -165,4 +165,15 @@ export class MemberProvider {
       return member[filter.filterBy] === filter.query;
     });
   }
+
+  /**
+   * Filters member list by department
+   * @param members
+   * @param memberDepartment
+   */
+  filterByDepartment(members: Array<Member>, memberDepartment): Array<Member> {
+    return members.filter(member => {
+      return member.department.includes(memberDepartment);
+    });
+  }
 }

@@ -1,7 +1,7 @@
 <ion-content>
 
   <ion-list radio-group [(ngModel)]="memberStatus">
-    <ion-list-header>Members Status</ion-list-header>
+    <ion-list-header>Members</ion-list-header>
     <ion-item>
       <ion-label>All Members</ion-label>
       <ion-radio value="all" [checked]="memberStatus === 'all'" (ionSelect)="closeFilter()"></ion-radio>
@@ -14,30 +14,19 @@
       <ion-label>Inactive Members</ion-label>
       <ion-radio value="false" [checked]="memberStatus === 'false'" (ionSelect)="closeFilter()"></ion-radio>
     </ion-item>
-
   </ion-list>
 
-  <ion-list radio-group [(ngModel)]="department">
-    <ion-list-header>Department</ion-list-header>
+  <ion-list radio-group [(ngModel)]="memberDepartmentStatus">
+    <ion-list-header>Departments</ion-list-header>
     <ion-item>
-      <ion-label>M.M.U</ion-label>
-      <ion-radio value="M.M.U" [checked]="department === 'M.M.U'" (ionSelect)="closeFilter()"></ion-radio>
+      <ion-label>All Departments</ion-label>
+      <ion-radio value="all" [checked]="memberDepartmentStatus === 'all'"
+                 (ionSelect)="closeFilter()"></ion-radio>
     </ion-item>
-    <ion-item>
-      <ion-label>W.M.U</ion-label>
-      <ion-radio value="true" [checked]="department === 'W.M.U'" (ionSelect)="closeFilter()"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Children</ion-label>
-      <ion-radio value="true" [checked]="department === 'Children'" (ionSelect)="closeFilter()"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Youth</ion-label>
-      <ion-radio value="false" [checked]="department === 'Youth'" (ionSelect)="closeFilter()"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student</ion-label>
-      <ion-radio value="false" [checked]="department === 'Student'" (ionSelect)="closeFilter()"></ion-radio>
+    <ion-item *ngFor="let department of departments">
+      <ion-label>{{ department }}</ion-label>
+      <ion-radio [value]="department" [checked]="memberDepartmentStatus === department"
+                 (ionSelect)="closeFilter()"></ion-radio>
     </ion-item>
   </ion-list>
 

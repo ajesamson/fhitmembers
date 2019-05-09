@@ -1,5 +1,6 @@
 export const AppConstants = {
   CELEBRANTS: 'celebrants',
+  DEFAULT_FILTER: 'all',
   MEMBERS_LIST: 'members',
   PICTURE_SOURCE: {
     camera: 'camera',
