@@ -173,7 +173,7 @@ export class MemberProvider {
    */
   filterByDepartment(members: Array<Member>, memberDepartment): Array<Member> {
     return members.filter(member => {
-      return member.department.includes(memberDepartment);
+      return member.department.indexOf(memberDepartment) >= 0;
     });
   }
 }
